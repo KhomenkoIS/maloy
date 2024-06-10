@@ -1,37 +1,64 @@
 #include <iostream>
-#include <cmath>
+#include <stdlib.h>
 using namespace std;
-double getA(const double x, const double y, const double z);
-
 /**
-    * @breef  - функция подставляет значение const в уравнение.
-    * @param x-аргумент функции 
-    * @param y-аргумент функции
-    * @param z-аргумент функции
+*@breef Считывает значение с клавиатуры с проверкой ввода
+*@return Введённое значение
 */
-
-double getB(const double x, const double y, const double z);
-
+double getValue();
 /**
-    * @breef  - точка входа в программу
-    * @return возращает 0, если программа выполнена верно, иначе 1
+ *@breef Проверяет число на то, чтобы оно не было равно нулю или меньше нуля
+ *@return Введённое значение
 */
-
+void checkValue(const double value);
+/**
+ * @breef Считает площадь поверхности куба
+ * @param a - длина ребра куба
+ * @return Площаль поверхности куба
+*/
+double cubeSurface(const double a);
+/**
+ * @breef Считает объём куба
+ * @param a - длина ребра куба
+ * @return Объём куба
+*/
+double cubeVolume(const double a);
+/**
+ * @breef Главная функция программы
+ * @return Возвращает 0, если функция выполнена верно, иначе 1
+*/
 int main()
 {
-    const double x = 0.61, y = 3.4, z = 16.5;
-    double a;
-    cout << "x="<< x <<"  y="<< y <<"  z="<< z <<endl;
-    cout << "a="<< getA(x, y, z) <<"  b="<< getB(x, y, z) << endl;
-    return 0;
+    cout <<"Enter the cube edge length =" << endl;
+    double a = getValue();
+    checkValue(a);
+    cout <<"Area of a cube face =" << a * a << endl;
+    cout <<"Surace area of a cube =" << cubeSurface(a) << endl;
+    cout <<"Volume  of a cube =" << cubeVolume(a) << endl;
 }
-
-double getA(const double x, const double y, const double z)
+double getValue()
 {
-    return (pow(x,3)*(tan(x+y)*tan(x+y)))+(z/sqrt(x+y));
+    double value;
+    cin >> value;
+    if (cin.fail())
+    {
+        cout <<"incorrect value" << endl;
+        abort();
+    }
+    return value;
 }
-
-double getB(const double x, const double y, const double z)
+void checkValue(double value)
 {
-    return (y*pow(x,2)-z)/(exp(z*x)-1);
+    if (value <=0)
+    {
+        abort();
+    }
+}
+double cubeSurface(double a)
+{
+    return 6 * a * a;
+}
+double cubeVolume(double a)
+{
+    return a * a *a;
 }
