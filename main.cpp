@@ -8,7 +8,7 @@ using namespace std;
 * @param z значение переменной z.
 * @return результат вычисления переменной a.
 */
-double calculatea(double x, double y, double z);
+double calculatea(const double x,const double y,const double z);
 /**
 * @brief функция для вычисления значения переменной b по заданным константам.
 * @param x значение переменной x.
@@ -16,7 +16,7 @@ double calculatea(double x, double y, double z);
 * @param z значение переменной z.
 * @return результат вычисления переменной b.
 */
-double calculateb(double x, double y, double z);
+double calculateb(const double x,const double y,const double z);
 /**
 * @brief Точка входа в программу.
 * @return выводит значение 0 при корректном выполнении программы.
@@ -33,11 +33,11 @@ int main()
     cout << "b = " << calculateb(x, y, z) << endl;
     return 0;
 }
-double calculatea(double x, double y, double z)
+double calculatea(const double x,const double y,const double z)
 {
     return (2 * cos(x - (M_PI/6))) / (1/2 + sin(2 * (y)));
 }
-double calculateb(double x, double y, double z)
+double calculateb(const double x,const double y,const double z)
 {
     return (1 + (pow(z,2)/3 + (pow(z,2)/5)));
 }
