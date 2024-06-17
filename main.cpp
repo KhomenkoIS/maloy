@@ -1,116 +1,128 @@
-#include <iostream> 
-#include <cmath> 
-#include <limits> 
-using namespace std; 
+﻿#include <iostream>
+#include <cmath>
+#include <limits>
+using namespace std;
 
-/** 
-*@brief Считывает значение с клавиатуры с проверкой ввода 
-*@return возвращает значение, если оно правильное, иначе завершает программу 
-*/ 
-double getValue(); 
+/**
+ * @brief Расчитывает сумму N членов
+ * @param n Число членов последовательности
+ * @return Возвращает значение суммы
+ */
+double SumN(const int n);
 
-/** 
-*@brief  Функция для вычисления значения функции y = 3ln^2x+6lnx−5 
-*@return значение y = 3ln^2x+6lnx−5 
-*/ 
-double calculateFunction(const double x); 
+/**
+ * @brief Вычисляет сумму членов последовательности, по модулю не меньших заданного числа e
+ * @param e Число, которое должно быть меньше модуля члена последовательности
+ * @return Возвращает значение суммы
+ */
+double SumE(const double e);
 
-/** 
-*@brief  Функция для проверки, что шаг положительный 
-*@return положительное значение шага 
-*/ 
-double getPositiveStep(); 
+/**
+ * @brief Вычисляет рекурентное выражение
+ * @param i Переменная i
+ * @return -0.5 / (i + 1) / (i + 2)
+ */
+double Recur(const int i);
 
-/** 
- *@brief  Запрашивает у пользователя ввод положительного значения x, 
- * и продолжает запрашивать значение до тех пор, пока не будет введено положительное число. 
- * @return Возвращает введенное положительное значение x. 
- */ 
-double getPositiveX(); 
+/**
+ * @brief Функция для проверки ввода n
+ * @return Возвращает n, если введено правильно, в противном случае -1
+ */
+int getValidN();
 
-/** 
-*@brief  Точка входа в программу 
-*@return 0 при успешном завершении программы 
-*/ 
-int main() 
-{ 
-    setlocale(LC_ALL, "Russian"); 
+/**
+ * @brief Функция для проверки ввода e
+ * @return Возвращает e, если введено правильно, в противном случае -1
+ */
+double getValidE();
 
-    cout << "Введите начальное значение x: "; 
-    double startX = getPositiveX(); 
+/**
+*@brief Точка входа для программы
+*@return 0
+*/
+int main()
+{
+    setlocale(LC_ALL, "Russian");
+    int n = getValidN();
+    if (n == -1)
+    {
+        return 1; // Возвращаем код ошибки
+    }
 
-    cout << "Введите конечное значение x: "; 
-    double endX = getPositiveX(); 
+    cout << "Сумма первых " << n << " членов последовательности: " << SumN(n) << endl;
 
-    if (startX > endX) 
-    { 
-        cout << "Ошибка: начальное значение x должно быть меньше, чем конечное значение x" << endl; 
-        return 1; 
-    } 
+    double e = getValidE();
+    if (e == -1)
+    {
+        return 1; // Возвращаем код ошибки
+    }
 
-    double step = getPositiveStep(); 
+    cout << "Сумма всех членов последовательности, модуль которых не меньше " << e << ": " << SumE(e) << endl;
 
-    cout << "x | y" << endl; 
-    cout << "--------" << endl; 
+    return 0;
+}
 
-    for (double x = startX; x < endX + step; x += step) 
-    { 
-        if (fabs(3 * pow(log(x), 2) + 6 * log(x) - 5) < numeric_limits<double>::epsilon()) 
-        { 
-            cout << "Решение невозможно для x = " << x << endl; 
-        } 
-        else 
-        { 
-            double y = calculateFunction(x); 
-            cout << x << " | " << y << endl; 
-        } 
-    } 
+int getValidN()
+{
+    int n;
+    cout << "Введите значение n: ";
+    cin >> n;
 
-    return 0; 
-} 
+    if (cin.fail() || n <= 0)
+    {
+        cout << "Ошибка: n должно быть положительным числом." << endl;
+        return -1; // Возвращаем -1 для обработки ошибки
+    }
 
-double getValue() 
-{ 
-    double value; 
-    cin >> value; 
-    if (cin.fail()) 
-    { 
-        cout << "Некорректное значение" << endl; 
-        abort(); 
-    } 
-    return value; 
-} 
+    return n;
+}
 
-double calculateFunction(const double x) 
-{ 
-    double a = 3 * pow(log(x), 2) + 6 * log(x) - 5; 
-    return a; 
-} 
+double getValidE()
+{
+    double e;
+    cout << "Введите значение e: ";
+    cin >> e;
 
-double getPositiveStep() 
-{ 
-    double step; 
-    do { 
-        cout << "Введите шаг: "; 
-        step = getValue(); 
-        if (step <= 0) 
-        { 
-            cout << "Ошибка. Шаг должен быть положительным. Повторите ввод." << endl; 
-        } 
-    } while (step <= 0); 
-    return step; 
-} 
+    if (e < numeric_limits<double>::epsilon() && e < Recur(1))
+    {
+        cout << "Ошибка: e должно быть положительным числом." << endl;
+        return -1; // Возвращаем -1 для обработки ошибки
+    }
 
-double getPositiveX() 
-{ 
-    double x; 
-    do { 
-        cout << "Введите положительное значение x: "; 
-        x = getValue(); 
-        if (x <= 0) 
-        { 
-            cout << "Ошибка. x должно быть положительным. Повторите ввод." << endl; 
-        } 
-    } while (x <= 0); 
-    return x; 
+    return e;
+}
+
+double SumN(const int n)
+{
+    const double a0 = 1;
+    double current = a0;
+    double sum = current;
+
+    for (int i = 0; i <= n - 1; ++i)
+    {
+        current *= Recur(i);
+        sum += current;
+    }
+
+    return sum;
+}
+
+double SumE(const double e)
+{
+    double sum = 0;
+    double current = 1;
+    int i = 0;
+
+    while (abs(current) >= e)
+    {
+        sum += current;
+        current *= Recur(i++);
+    }
+
+    return sum;
+}
+
+double Recur(const int i)
+{
+    return -0.5 / (i + 1) / (i + 2);
 }
