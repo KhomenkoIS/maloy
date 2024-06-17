@@ -1,90 +1,126 @@
-#include <iostream>
-#include <math.h>
-#include <iomanip>
+﻿#include <iostream>
+#include <cmath>
+#include <limits>
 using namespace std;
+
 /**
-* @breef Считывает значение с клавиатуры с проверкой ввода
-* @param Минимальное значение диапазона
-* @return Введённое значение
+*@brief Считывает значиния с клавиатуры с проверкой ввода
+*@return возвращает значение, если оно правильное , иначе завершает программу
 */
-void checkMinRange(const double minValue);
+double getValue();
+
 /**
-* @breef Считывает значение с клавиатуры с проверкой ввода
-* @return Введённое значение
+*@brief  Функция для вычисления значения функции y = 3ln^2x+6lnx−5
+*@return 3ln^2x+6lnx−5
 */
-double getNumber();
+double calculateFunction(const double x);
+
 /**
- * @brief проверяет диапазон
- * @param min - минимальное значение диапазона значений элементов массива
- * @param max - максимальное значение диапазона значений элементов массива
+*@brief  Функция для проверки, что шаг положительный
+*@param step шаг с которым идёт постороение графика
+*@return step
+*/
+double getPositiveStep();
+
+/**
+ *@brief  запрашивает у пользователя ввод положительного значения x,
+ * и продолжает запрашивать значение до тех пор, пока не будет введено положительное число.
+ * @return Возвращает введенное положительное значение x.
  */
-void checkRange(const double min, const double max);
+double getPositiveX();
+
 /**
-* @breef Табулирует функцию x(y) и выводит в виде столбца
-* @param minValue - минимальное значение диапазона
-* @param maxValue - максимальное значение диапазона
-* @param step - значение шага функции
+*@brief  Функция для проверки, что значение x является ООФ
+*@param x значение x
+*@return true, если x является ООФ, иначе false
 */
-void printTabFunction(const double minValue, const double maxValue, const double step);
+bool checkingFunction(double x);
+
 /**
-* @breef - Проверка правильности введённого шага
-* @param step - значение шага функции
-*/
-void checkStep(const double step);
-/**
-* @breef - главная функция программы
-* @return - возвращает 0, если функция выполнена верно, иначе 1.
+*@brief  точка хода в программу
+*@return 0
 */
 int main()
 {
-    cout << "Enter min and max values of range: " << endl;
-    double minValue = getNumber();
-    checkMinRange(minValue);
-    double maxValue = getNumber();
-    checkRange(minValue, maxValue);
-    cout << "Enter step of range = ";
-    double step = getNumber();
-    checkStep(step);
-    printTabFunction(minValue, maxValue, step);
+    setlocale(LC_ALL, "Russian");
+
+    cout << "Введите начальное значение x: ";
+    double startX = getPositiveX();
+
+    cout << "Введите конечное значение x: ";
+    double endX = getPositiveX();
+
+    if (startX > endX)
+    {
+        cout << "Ошибка: xstart должно быть меньше, чем xend" << endl;
+        return 1;
+    }
+
+    cout << "Введите шаг: ";
+    double step = getPositiveStep();
+
+    cout << "x | y" << endl;
+    cout << "--------" << endl;
+
+    for (double x = startX; x < endX + step; x += step)
+    {
+        if (checkingFunction(x))
+        {
+            double y = calculateFunction(x);
+            cout << x << " | " << y << endl;
+        }
+    }
+
+    return 0;
 }
-double getNumber()
+
+double getValue()
 {
-    double number;
-    cin >> number;
+    double value;
+    cin >> value;
     if (cin.fail())
     {
-        cout << "Incorrect input";
+        cout << "Некорректное значение" << endl;
         abort();
     }
-    return number;
+    return value;
 }
-void checkRange(double min, double max)
+
+
+double calculateFunction(const double x)
 {
-    if (min > max)
-    {
-        cout << "Wrong range entered" << endl;
-        abort();
-    }
+    double b = 3 * pow(log(x), 2) + 6 * log(x) - 5;
+    return b;
 }
-void checkMinRange(double minValue){
-    if (minValue<0){
-        cout << "Incorrect MinRange!!!" << endl;
-        abort();
-    }
-}
-void printTabFunction(double minValue, double maxValue, double step)
+
+double getPositiveStep()
 {
-    cout << setw(10) << "x" << setw(10) << "y" << endl;
-    for (double i = minValue; i < maxValue + step; i = i + step) {
-        double a = i + pow(i, 1 / 2) + pow(i, 1 / 3) - 2.5;
-        cout << setw(10) << i << setw(10) << a << endl;
-    }
+    double step;
+    do {
+        step = getValue();
+        if (step <= 0)
+        {
+            cout << "Ошибка. Шаг должен быть положительным. Повторите ввод." << endl;
+        }
+    } while (step <= 0);
+    return step;
 }
-void checkStep(double step)
+
+double getPositiveX()
 {
-    if (step <= 0)
-    {
-        cout << "Incorrect step!!!" << endl;
-        abort();
-    }
+    double x;
+    do {
+        cout << "Введите положительное значение x: ";
+        x = getValue();
+        if (x <= 0)
+        {
+            cout << "Ошибка. X должно быть положительным. Повторите ввод." << endl;
+        }
+    } while (x <= 0);
+    return x;
+}
+
+bool checkingFunction(double x)
+{
+    return x > 0;
 }
