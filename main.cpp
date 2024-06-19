@@ -20,7 +20,7 @@ double SumE(const double e);
 /**
  * @brief Вычисляет рекурентное выражение
  * @param i Переменная i
- * @return -0.5 / (i + 1) / (i + 2)
+ * @return 1 / (i + 1) / (i + 2)
  */
 double Recur(const int i);
 
@@ -83,7 +83,7 @@ double getValidE()
     cout << "Введите значение e: ";
     cin >> e;
 
-    if (e < numeric_limits<double>::epsilon() && e < Recur(1))
+    if (e < numeric_limits<double>::epsilon() && e < Recur(0))
     {
         cout << "Ошибка: e должно быть положительным числом." << endl;
         return -1; // Возвращаем -1 для обработки ошибки
@@ -124,5 +124,5 @@ double SumE(const double e)
 
 double Recur(const int i)
 {
-    return -0.5 / (i + 1) / (i + 2);
+    return 1 / (i + 1) / (i + 2);
 }
