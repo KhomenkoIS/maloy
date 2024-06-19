@@ -34,7 +34,7 @@ double getPositiveX();
 *@param x значение x
 *@return true, если x является ООФ, иначе false
 */
-bool checkingFunction(double x);
+bool checkingFunction(const double x);
 
 /**
 *@brief  точка хода в программу
@@ -120,7 +120,7 @@ double getPositiveX()
     return x;
 }
 
-bool checkingFunction(double x)
+bool checkingFunction(const double x)
 {
     return x > 0;
 }
