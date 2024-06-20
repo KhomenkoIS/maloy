@@ -124,5 +124,5 @@ double SumE(const double e)
 
 double Recur(const int i)
 {
-    return 1 / (i + 1) / (i + 2);
+    return -1/k+1;
 }
